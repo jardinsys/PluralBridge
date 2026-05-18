@@ -230,6 +230,49 @@ code {
     background: rgba(255, 255, 255, 0.1);
 }
 
+
+.doc-page {
+    max-width: 920px;
+}
+
+.doc-page p,
+.doc-page li {
+    color: var(--text-muted);
+    line-height: 1.62;
+}
+
+.doc-page h1 {
+    font-size: clamp(2.1rem, 5vw, 3.7rem);
+}
+
+.doc-page h2 {
+    margin-top: 34px;
+}
+
+.doc-page h3 {
+    margin-top: 24px;
+}
+
+.doc-page pre {
+    overflow-x: auto;
+    padding: 16px;
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.28);
+}
+
+.doc-page pre code {
+    padding: 0;
+    background: transparent;
+}
+
+.doc-page img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 14px;
+    border: 1px solid var(--line-soft);
+}
+
 .site-footer {
     border-top: 1px solid var(--line-soft);
     background: rgba(5, 8, 13, 0.82);
