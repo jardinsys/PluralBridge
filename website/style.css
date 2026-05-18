@@ -230,7 +230,53 @@ code {
     background: rgba(255, 255, 255, 0.1);
 }
 
-.site-footer {
+
+.doc-page {
+    max-width: 920px;
+}
+
+.doc-page p,
+.doc-page li {
+    color: var(--text-muted);
+    line-height: 1.62;
+}
+
+.doc-page h1 {
+    font-size: clamp(2.1rem, 5vw, 3.7rem);
+}
+
+.doc-page h2 {
+    margin-top: 34px;
+}
+
+.doc-page h3 {
+    margin-top: 24px;
+}
+
+.doc-page pre {
+    overflow-x: auto;
+    padding: 16px;
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.28);
+}
+
+.doc-page pre code {
+    padding: 0;
+    background: transparent;
+}
+
+.doc-page img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 14px;
+    border: 1px solid var(--line-soft);
+}
+
+
+
+
+\n.site-footer {
     border-top: 1px solid var(--line-soft);
     background: rgba(5, 8, 13, 0.82);
 }
@@ -268,4 +314,34 @@ code {
     main {
         padding-top: 34px;
     }
+}
+
+.doc-page table {
+    border-collapse: collapse;
+    margin: 1.25rem 0 1.75rem;
+    width: auto;
+    max-width: 100%;
+}
+
+.doc-page th,
+.doc-page td {
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    padding: 0.45rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.doc-page th {
+    background: rgba(15, 23, 42, 0.75);
+    color: #f8fafc;
+    font-weight: 700;
+}
+
+.doc-page td {
+    background: rgba(15, 23, 42, 0.35);
+}
+
+.doc-page td code,
+.doc-page th code {
+    white-space: nowrap;
 }
