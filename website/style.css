@@ -66,13 +66,13 @@ a:hover {
 }
 
 .brand-title {
-    font-size: 1.15rem;
-    font-weight: 720;
+    font-size: 1.45rem;
+    font-weight: 760;
     letter-spacing: 0.02em;
 }
 
 .brand-subtitle {
-    font-size: 0.84rem;
+    font-size: 0.98rem;
     color: var(--text-soft);
 }
 
