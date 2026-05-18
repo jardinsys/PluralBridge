@@ -273,7 +273,21 @@ code {
     border: 1px solid var(--line-soft);
 }
 
-.site-footer {
+
+.doc-page .tok-keyword {
+    color: var(--warning);
+    font-weight: 700;
+}
+
+.doc-page .tok-comment {
+    color: var(--text-soft);
+    font-style: italic;
+}
+
+.doc-page .tok-number {
+    color: var(--accent);
+}
+\n.site-footer {
     border-top: 1px solid var(--line-soft);
     background: rgba(5, 8, 13, 0.82);
 }

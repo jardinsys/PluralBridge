@@ -157,6 +157,7 @@ def render_page(md_path):
 {body}
   </article>
 </main>
+<script src="/js/code-highlight.js"></script>
 </body>
 </html>
 """, encoding="utf-8")
