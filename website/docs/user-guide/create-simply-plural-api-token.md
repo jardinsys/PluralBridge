@@ -20,55 +20,55 @@ For export and preservation workflows, **Read** permission is required.
 
 Click the hamburger menu in the upper-left corner.
 
-![Step 1 screenshot](../../04-supporting-assets/token-screenshots/SPToken/1_click_hamburger_menu.png)
+![Step 1 screenshot](../assets/token-screenshots/SPToken/1_click_hamburger_menu.png)
 
 ## Step 2: Open Settings
 
 Click the settings gear.
 
-![Step 2 screenshot](../../04-supporting-assets/token-screenshots/SPToken/2_click_settings.png)
+![Step 2 screenshot](../assets/token-screenshots/SPToken/2_click_settings.png)
 
 ## Step 3: Open Account
 
 Click Account in the settings panel.
 
-![Step 3 screenshot](../../04-supporting-assets/token-screenshots/SPToken/3_click_Account.png)
+![Step 3 screenshot](../assets/token-screenshots/SPToken/3_click_Account.png)
 
 ## Step 4: Open Tokens
 
 Click Tokens in the account settings list.
 
-![Step 4 screenshot](../../04-supporting-assets/token-screenshots/SPToken/4_click_Tokens.png)
+![Step 4 screenshot](../assets/token-screenshots/SPToken/4_click_Tokens.png)
 
 ## Step 5: Revoke an existing token when rotating credentials
 
 If you are invalidating an old token or replacing an exposed token, click the delete icon for the existing token. The token text in this screenshot is intentionally blurred.
 
-![Step 5 screenshot](../../04-supporting-assets/token-screenshots/SPToken/5_delete_any_existing_tokens_if_invalidating_and_recreating.png)
+![Step 5 screenshot](../assets/token-screenshots/SPToken/5_delete_any_existing_tokens_if_invalidating_and_recreating.png)
 
 ## Step 6: Add a new token
 
 Click Add Token from the token list area.
 
-![Step 6 screenshot](../../04-supporting-assets/token-screenshots/SPToken/6_add_new_token.png)
+![Step 6 screenshot](../assets/token-screenshots/SPToken/6_add_new_token.png)
 
 ## Step 7: Confirm Add Token
 
 Click Add Token again on the token creation control.
 
-![Step 7 screenshot](../../04-supporting-assets/token-screenshots/SPToken/7_add_new_token.png)
+![Step 7 screenshot](../assets/token-screenshots/SPToken/7_add_new_token.png)
 
 ## Step 8: Select token permissions
 
 For export/preservation work, Read permission is required. Write should only be selected if future tooling needs write operations. Delete is not recommended for preservation exports.
 
-![Step 8 screenshot](../../04-supporting-assets/token-screenshots/SPToken/8_select_new_token_permissions.png)
+![Step 8 screenshot](../assets/token-screenshots/SPToken/8_select_new_token_permissions.png)
 
 ## Step 9: Copy the new token
 
 Long-press or select the generated token value when you need to copy it. Store it only in a local environment variable such as SP_TOKEN. The token text in this screenshot is intentionally blurred.
 
-![Step 9 screenshot](../../04-supporting-assets/token-screenshots/SPToken/9_long_press_copy_new_token_when_needed.png)
+![Step 9 screenshot](../assets/token-screenshots/SPToken/9_long_press_copy_new_token_when_needed.png)
 
 ## Git Bash environment variable example
 

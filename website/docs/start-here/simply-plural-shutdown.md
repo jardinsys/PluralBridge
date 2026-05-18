@@ -80,8 +80,8 @@ Treat SP_TOKEN like a password. Do not post it publicly, commit it to Git, paste
 
 ## Related PluralBridge guides
 
-- Create a Simply Plural API token: `../user-guide/create-simply-plural-api-token.md`
-- Preserve your data: `../user-guide/preserve-your-data.md`
-- Export avatars: `../user-guide/export-avatars.md`
-- Use the REST API with a token: `../developer-guide/rest-api-with-token.md`
+- [Create a Simply Plural API token](../user-guide/create-simply-plural-api-token.md)
+- [Preserve your data](../user-guide/preserve-your-data.md)
+- [Export avatars](../user-guide/export-avatars.md)
+- [Use the REST API with a token](../developer-guide/rest-api-with-token.md)
 
