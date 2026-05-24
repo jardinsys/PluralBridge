@@ -6,6 +6,49 @@ Tags are listed in reverse chronological order so the latest project changes app
 
 ---
 
+## v0.4.1 — Release-history bookkeeping
+
+### Major tasks completed
+
+- Added the missing `v0.4.0` entry to `TAG_TASKS.md` after the `v0.4.0` release tag had already been created.
+- Preserved the existing `v0.4.0` tag instead of rewriting or moving release history.
+- Recorded this follow-up as a small patch release so the repository history remains explicit.
+
+### Notes
+
+This release is a release-history correction. It documents the `v0.4.0` contributor-governance release in `TAG_TASKS.md` without changing the already-published `v0.4.0` tag.
+
+---
+
+## v0.4.0 — Contributor governance and developer workflow
+
+### Major tasks completed
+
+- Expanded contributor governance guidance in `CONTRIBUTING.md`.
+- Documented the project discussion model for GitHub Discussions, Issues, Pull Requests, and community spaces.
+- Added branch-role guidance for `master`, `dev`, feature branches, and production patch branches.
+- Added maintainer authority and delegation guidance for protecting privacy posture, release stability, public trust, and community safety.
+- Added contributor privacy rules covering real exports, tokens, avatars, notes, logs, member data, friend data, fronting history, privacy buckets, and database files.
+- Added project independence boundaries for Simply Plural and Apparyllis interoperability work.
+- Added plural-community conduct guidance for contributors.
+- Added current developer-help areas, including official export normalization, SQLite support, validation reports, documentation, accessibility, SQL review, viewer prototypes, and import bridges.
+- Expanded `website/developer-workflow.html` to mirror the repository-facing contributor workflow guidance.
+- Normalized top-level website navigation across public pages.
+- Normalized Docs and About hero presentation.
+- Tightened navbar CSS for the current flat navigation.
+- Previewed website changes locally and through Cloudflare before release.
+
+### Pull requests and major commits included
+
+- PR #25: Expand contributor governance and website consistency.
+- PR #26: Release contributor governance guidance.
+
+### Notes
+
+This release prepared PluralBridge for careful developer and open-source contributor participation by documenting where discussions happen, how branches are handled, what privacy boundaries apply, and how contributors can help without handling private user data.
+
+---
+
 ## v0.3.4 — Website logo and release-history access
 
 ### Major tasks completed
