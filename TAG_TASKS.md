@@ -356,3 +356,25 @@ This tag represents the initial public foundation: export-first preservation, lo
 - Restore or rewrite missing public-facing project context where appropriate.
 - Keep wording factual, calm, and focused on preservation and continuity.
 
+
+---
+
+## Current contributor-ready issue planning
+
+These are candidate starter Issues for developer-community outreach. They should be created only when each item has a clear scope, privacy-safe boundaries, and a synthetic-data path.
+
+### Candidate starter Issues
+
+- Add synthetic export fixture set for tests and examples.
+- Add export validation summary output.
+- Draft initial SQLite schema for local/offline preserved data.
+- Improve non-technical export success/failure guidance.
+- Review documentation for accessibility and plain-language clarity.
+
+### Privacy and data-safety boundary
+
+All contributor-ready Issues should assume synthetic examples, redacted descriptions, and public-safe fixtures only. Contributors should not request, post, attach, or inspect private Simply Plural exports, real System data, API tokens, authorization headers, avatar images, notes, messages, friend data, fronting history, logs, screenshots containing private data, or database files created from real exports.
+
+### Outreach sequencing
+
+Developer-community outreach should come before the Contact/Support page and navigation/mobile repair work. The Contact/Support page and navbar/mobile cleanup are the next focused website task after the first developer outreach pass.
