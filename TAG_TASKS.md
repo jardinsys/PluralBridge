@@ -6,6 +6,21 @@ Tags are listed in reverse chronological order so the latest project changes app
 
 ---
 
+## v0.5.1 — Social preview image update
+
+### Major tasks completed
+
+- Added `website/assets/images/pluralbridge-about-logo.png` as the current approved PluralBridge logo image for social previews.
+- Updated Open Graph metadata in `website/index.html` so shared website links point to the current approved logo.
+- Updated Twitter card metadata in `website/index.html` so shared website links point to the current approved logo.
+- Left the old social-preview image file in place instead of deleting it.
+
+### Notes
+
+This is a small production patch release for the public website metadata. It gets the current approved PluralBridge logo into production for link previews on Mastodon and other social platforms. Some services may cache previews, so the corrected image may appear only after cache refresh or a new share.
+
+---
+
 ## v0.5.0 — Mobile navigation and privacy reminder usability
 
 ### Major tasks completed
@@ -316,11 +331,12 @@ This tag represents the initial public foundation: export-first preservation, lo
 
 ---
 
-## Current post-v0.5.0 follow-up queue
+## Current post-v0.5.1 follow-up queue
 
 ### Public site and user-path verification
 
 - Smoke-test the production site after deployment.
+- Verify the home page social-preview metadata points to `https://thepluralbridge.org/assets/images/pluralbridge-about-logo.png`.
 - Check:
   - `https://thepluralbridge.org/start-here.html`
   - `https://thepluralbridge.org/help-me-export.html`
