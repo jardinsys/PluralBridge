@@ -6,6 +6,27 @@ Tags are listed in reverse chronological order so the latest project changes app
 
 ---
 
+## v0.5.2 — Website menu restructure
+
+### Major tasks completed
+
+- Restructured the top-level public website navigation into grouped menus.
+- Added `Home` as a visible top-level navigation item.
+- Kept `Start Here` and `Export Now` as direct top-level navigation items.
+- Grouped documentation and user-flow pages under `Guides`.
+- Grouped Discussions, Pluralpedia, Mastodon, and GitHub under `Community`.
+- Converted `About` into a grouped menu with `About PluralBridge` and a disabled `Contact Us` coming-soon placeholder.
+- Added active navigation states for top-level pages and guide submenu items.
+- Added mobile styling so dropdown menu labels behave like centered navigation buttons.
+- Added `website/site-menu.js` so opening one dropdown closes any other open dropdown.
+- Previewed the grouped navigation locally in desktop browser and on Android before release.
+
+### Notes
+
+This release improves the public website navigation before the later Contact/Support page work. The Contact Us item is intentionally present as a disabled placeholder; the actual Contact/Support page is deferred to a separate feature branch.
+
+---
+
 ## v0.5.1 — Social preview image update
 
 ### Major tasks completed
@@ -331,7 +352,7 @@ This tag represents the initial public foundation: export-first preservation, lo
 
 ---
 
-## Current post-v0.5.1 follow-up queue
+## Current post-v0.5.2 follow-up queue
 
 ### Public site and user-path verification
 
@@ -363,7 +384,6 @@ This tag represents the initial public foundation: export-first preservation, lo
 - Add a release checklist.
 - Decide whether to add `CHANGELOG.md`.
 - Keep `CONTRIBUTING.md` and `website/developer-workflow.html` aligned as contributor workflow evolves.
-- Revisit dropdown/grouped navigation later if the flat desktop nav becomes too crowded again.
 
 ### Regular-user tooling
 
