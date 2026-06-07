@@ -88,3 +88,42 @@ button[aria-pressed="true"] {
   color: #d8e1ed;
   font-size: 0.92rem;
 }
+
+.login-panel {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.28);
+}
+
+.field-row {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.85rem;
+}
+
+.field-row label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.field-row input {
+  width: min(100%, 24rem);
+  padding: 0.65rem 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  border-radius: 0.5rem;
+  color: #e5e7eb;
+  background: rgba(15, 23, 42, 0.72);
+}
+
+.session-status {
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.65rem;
+  font-weight: 700;
+  color: #dbeafe;
+  background: rgba(30, 64, 175, 0.28);
+}
