@@ -154,12 +154,14 @@ app.MapPost("/logout", async (HttpContext context) =>
 	return Results.Redirect("/login");
 }).RequireAuthorization();
 
+#if DEBUG_MODE
 // temporary auth diagnostic endpoint
 app.MapGet("/whoami", (HttpContext context) => Results.Json(new
 {
 	isAuthenticated = context.User.Identity?.IsAuthenticated ?? false,
 	name = context.User.Identity?.Name ?? string.Empty
 }));
+#endif
 
 // add API controller endpoints
 app.MapControllers().RequireAuthorization();
