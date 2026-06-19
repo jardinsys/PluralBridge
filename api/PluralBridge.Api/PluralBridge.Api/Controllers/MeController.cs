@@ -135,5 +135,208 @@ public sealed class MeController(IConfiguration configuration) : ControllerBase
 			reader.IsDBNull(1) ? null : reader.GetString(1));
 	}
 
-	private sealed record ProofSystem(Guid SystemId, string? SystemName);
+	private static async Task<Account?> ReadAccountByEmailAsync(
+	SqlConnection connection,
+	string email)
+	{
+		const string sql = """
+		                   SELECT TOP (1)
+		                       a.AccountId,
+		                       a.Email,
+		                       a.DisplayName,
+		                       a.AccountStatusId,
+		                       s.StatusName,
+		                       s.SortOrder,
+		                       s.IsActive,
+		                       s.CreatedAtUtc,
+		                       a.CreatedAtUtc,
+		                       a.UpdatedAtUtc
+		                   FROM dbo.pb_accounts AS a
+		                   INNER JOIN dbo.pb_account_statuses AS s
+		                       ON s.AccountStatusId = a.AccountStatusId
+		                   WHERE a.Email = @Email
+		                   ORDER BY a.CreatedAtUtc, a.AccountId;
+		                   """;
+
+		await using SqlCommand command = new(sql, connection);
+		command.Parameters.AddWithValue("@Email", email);
+
+		await using var reader = await command.ExecuteReaderAsync();
+
+		if (!await reader.ReadAsync())
+		{
+			return null;
+		}
+
+		AccountStatus accountStatus = new(
+			reader.GetInt32(3),
+			reader.GetString(4),
+			reader.GetInt32(5),
+			reader.GetBoolean(6),
+			reader.GetDateTime(7));
+
+		return new Account(
+			reader.GetGuid(0),
+			reader.GetString(1),
+			reader.GetString(2),
+			reader.GetInt32(3),
+			accountStatus,
+			reader.GetDateTime(8),
+			reader.IsDBNull(9) ? null : reader.GetDateTime(9));
+	}
+
+	private static async Task<SystemMembership?> ReadActiveMembershipAsync(
+		SqlConnection connection,
+		Guid accountId)
+	{
+		const string sql = """
+		                   SELECT TOP (1)
+		                       m.SystemMembershipId,
+		                       m.AccountId,
+		                       m.SystemId,
+		                       m.MembershipStatusId,
+		                       s.StatusName,
+		                       s.SortOrder,
+		                       s.IsActive,
+		                       s.CreatedAtUtc,
+		                       m.CreatedAtUtc,
+		                       m.UpdatedAtUtc
+		                   FROM dbo.pb_system_memberships AS m
+		                   INNER JOIN dbo.pb_system_membership_statuses AS s
+		                       ON s.MembershipStatusId = m.MembershipStatusId
+		                   WHERE m.AccountId = @AccountId
+		                     AND s.StatusName = 'Active'
+		                   ORDER BY m.CreatedAtUtc, m.SystemMembershipId;
+		                   """;
+
+		await using SqlCommand command = new(sql, connection);
+		command.Parameters.AddWithValue("@AccountId", accountId);
+
+		Guid systemMembershipId;
+		Guid membershipAccountId;
+		Guid systemId;
+		int membershipStatusId;
+		MembershipStatus membershipStatus;
+		DateTime createdAtUtc;
+		DateTime? updatedAtUtc;
+
+		await using (var reader = await command.ExecuteReaderAsync())
+		{
+			if (!await reader.ReadAsync())
+			{
+				return null;
+			}
+
+			systemMembershipId = reader.GetGuid(0);
+			membershipAccountId = reader.GetGuid(1);
+			systemId = reader.GetGuid(2);
+			membershipStatusId = reader.GetInt32(3);
+
+			membershipStatus = new MembershipStatus(
+				membershipStatusId,
+				reader.GetString(4),
+				reader.GetInt32(5),
+				reader.GetBoolean(6),
+				reader.GetDateTime(7));
+
+			createdAtUtc = reader.GetDateTime(8);
+			updatedAtUtc = reader.IsDBNull(9) ? null : reader.GetDateTime(9);
+		}
+
+		IReadOnlyList<Role> roles = await ReadRolesForMembershipAsync(
+			connection,
+			systemMembershipId);
+
+		return new SystemMembership(
+			systemMembershipId,
+			membershipAccountId,
+			systemId,
+			membershipStatusId,
+			membershipStatus,
+			roles,
+			createdAtUtc,
+			updatedAtUtc);
+	}
+
+	private static async Task<IReadOnlyList<Role>> ReadRolesForMembershipAsync(
+		SqlConnection connection,
+		Guid systemMembershipId)
+	{
+		const string sql = """
+		                   SELECT
+		                       r.RoleId,
+		                       r.RoleName,
+		                       r.SortOrder,
+		                       r.IsActive,
+		                       r.CreatedAtUtc
+		                   FROM dbo.pb_system_membership_roles AS mr
+		                   INNER JOIN dbo.pb_roles AS r
+		                       ON r.RoleId = mr.RoleId
+		                   WHERE mr.SystemMembershipId = @SystemMembershipId
+		                   ORDER BY r.SortOrder, r.RoleName, r.RoleId;
+		                   """;
+
+		await using SqlCommand command = new(sql, connection);
+		command.Parameters.AddWithValue("@SystemMembershipId", systemMembershipId);
+
+		List<Role> roles = [];
+
+		await using var reader = await command.ExecuteReaderAsync();
+
+		while (await reader.ReadAsync())
+		{
+			roles.Add(new Role(
+				reader.GetInt32(0),
+				reader.GetString(1),
+				reader.GetInt32(2),
+				reader.GetBoolean(3),
+				reader.GetDateTime(4)));
+		}
+
+		return roles;
+	}
+
+	private sealed record ProofSystem(
+		Guid SystemId, 
+		string? SystemName);
+
+	private sealed record AccountStatus(
+		int AccountStatusId,
+		string StatusName,
+		int SortOrder,
+		bool IsActive,
+		DateTime CreatedAtUtc);
+
+	private sealed record Account(
+		Guid AccountId,
+		string Email,
+		string DisplayName,
+		int AccountStatusId,
+		AccountStatus AccountStatus,
+		DateTime CreatedAtUtc,
+		DateTime? UpdatedAtUtc);
+
+	private sealed record Role(
+		int RoleId,
+		string RoleName,
+		int SortOrder,
+		bool IsActive,
+		DateTime CreatedAtUtc);
+
+	private sealed record MembershipStatus(
+		int MembershipStatusId,
+		string StatusName,
+		int SortOrder,
+		bool IsActive,
+		DateTime CreatedAtUtc);
+
+	private sealed record SystemMembership(
+		Guid SystemMembershipId,
+		Guid AccountId,
+		Guid SystemId,
+		int MembershipStatusId,
+		MembershipStatus MembershipStatus,
+		IReadOnlyList<Role> Roles,
+		DateTime CreatedAtUtc,
+		DateTime? UpdatedAtUtc);
 }
