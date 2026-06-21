@@ -50,6 +50,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluralBridge.Api.Tests", "..\PluralBridge.Api.Tests\PluralBridge.Api.Tests.csproj", "{D60558B5-89A6-4DEA-960B-995DEE0E6A1D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PB App", "PB App", "{E8A02964-6D6B-42B4-8BD3-05E213A4B9BA}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\app\app.css = ..\..\app\app.css
+		..\..\app\app.js = ..\..\app\app.js
+		..\..\app\index.html = ..\..\app\index.html
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

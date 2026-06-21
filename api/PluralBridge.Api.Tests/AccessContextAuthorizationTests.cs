@@ -179,4 +179,67 @@ public sealed class AccessContextAuthorizationTests
 			DateTime.UtcNow,
 			null);
 	}
+
+	[Fact]
+	public void OwnerMembershipCanAccessCurrentSystem()
+	{
+		var accountId = Guid.NewGuid();
+		var systemId = Guid.NewGuid();
+		var systemMembershipId = Guid.NewGuid();
+
+		var accountStatus = new AccessContextHelper.AccountStatus(
+			AccountStatusId: 1,
+			StatusName: "Active",
+			StatusDesc: "Active",
+			DisplayOrder: 1,
+			IsActive: true);
+
+		var account = new AccessContextHelper.Account(
+			AccountId: accountId,
+			Email: "demo@thepluralbridge.local",
+			DisplayName: "Demo Owner",
+			AccountStatusId: 1,
+			AccountStatus: accountStatus,
+			CreatedAtUtc: DateTime.UtcNow,
+			UpdatedAtUtc: null);
+
+		var membershipStatus = new AccessContextHelper.MembershipStatus(
+			MembershipStatusId: 1,
+			StatusName: "Active",
+			StatusDesc: "Active",
+			DisplayOrder: 1,
+			IsActive: true);
+
+		var ownerRole = new AccessContextHelper.Role(
+			RoleId: 1,
+			RoleName: "Owner",
+			RoleDesc: "Owner",
+			DisplayOrder: 1,
+			IsActive: true);
+
+		var membership = new AccessContextHelper.SystemMembership(
+			SystemMembershipId: systemMembershipId,
+			AccountId: accountId,
+			SystemId: systemId,
+			MembershipStatusId: 1,
+			MembershipStatus: membershipStatus,
+			Roles: [ownerRole],
+			CreatedAtUtc: DateTime.UtcNow,
+			UpdatedAtUtc: null);
+
+		var currentSystem = new AccessContextHelper.CurrentSystem(
+			SystemId: systemId,
+			SystemName: "Test System",
+			SystemMembershipId: systemMembershipId);
+
+		var accessContext = new AccessContextHelper.AccessContext(
+			CurrentAccount: account,
+			MembershipAccess: [membership],
+			CurrentSystem: currentSystem);
+
+		var isAuthorized = AccessContextHelper.IsAuthorizedForCurrentSystem(accessContext);
+
+		Assert.True(isAuthorized);
+	}
+
 }
