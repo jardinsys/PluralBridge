@@ -6,6 +6,77 @@ Tags are listed in reverse chronological order so the latest project changes app
 
 ---
 
+## v0.8.1 — PB-NEXT Chapter 2 implementation complete
+
+### Major tasks completed
+
+* Completed the PB-NEXT Chapter 2 safe-spine implementation path.
+* Preserved the existing protected read-only browser and API proof behavior.
+* Confirmed the Chapter 2 proof database:
+
+  * `PluralBridgeChap2SafeSpine`
+* Added the account/security-principal foundation:
+
+  * account resolution
+  * account status lookup
+  * fixed proof account path
+* Added the system access foundation:
+
+  * system membership resolution
+  * active membership selection
+  * membership status lookup
+  * membership role lookup
+  * current system resolution
+* Confirmed the core Chapter 2 identity model:
+
+  * Account = login/security principal
+  * System = protected data namespace and data container
+  * Membership = account-to-system access grant
+  * Role = permission shape attached through membership
+* Added the authorization boundary used by the current read path.
+* Refactored `/api/me` to use the access-context helper instead of inline access SQL.
+* Added tests for the access-context and authorization boundary.
+* Added baseline diagnostic trace support.
+* Added local rolling trace file support.
+* Defined expanded diagnostic trace mode as future flag-controlled design.
+* Completed final Chapter 2 verification of:
+
+  * API solution build
+  * request trace tests
+  * access-context authorization tests
+  * protected browser sign-in
+  * logged-out `/api/me` protection
+  * logged-in `/api/me` owner path
+  * local rolling trace output
+* Added group support schema:
+
+  * `pb_groups`
+  * `pb_group_members`
+* Modeled group membership as many-to-many.
+* Preserved groups as system-scoped data/import organization.
+* Kept groups separate from accounts, systems, memberships, roles, and security boundaries.
+* Added child system relationship schema:
+
+  * `pb_system_relationships`
+* Seeded the root system relationship row for the existing proof system.
+* Preserved `/api/me` owner-path behavior after group and child-system schema additions.
+
+### Notes
+
+* This release completes PB-NEXT Chapter 2 implementation.
+* Runtime remains a protected read-only proof path.
+* Group support is schema-only in this release.
+* Child system relationships are schema-only in this release.
+* Audit remains a future evidence seam.
+* PB-native visibility scope remains future work.
+* Simply Plural-shaped privacy bucket data remains preserved source/import data.
+* Existing proof counts remain unchanged:
+
+  * members: 49
+  * privacy buckets: 2
+  * custom fields: 7
+  * front history rows: 886
+
 ## v0.8.0 — PB-NEXT Chapter 2 safe-spine SQL foundation
 
 ### Major tasks completed
