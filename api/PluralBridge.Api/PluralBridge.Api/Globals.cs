@@ -52,6 +52,7 @@ namespace PluralBridge.Api
 		internal const string sourceIdMappingsEndpointSegment = "source-id-mappings";
 		internal const string sourceRecordsEndpointSegment = "source-records";
 		internal const string sourceSystemsEndpointSegment = "source-systems";
+		internal const string routeMemberId = "{memberId:guid}";
 
 		/// <summary>
 		/// API routes
@@ -66,6 +67,7 @@ namespace PluralBridge.Api
 		internal const string sourceRecordsRoute = $"{systemsRouteRoot}/{routeSystemId}/{sourceRecordsEndpointSegment}";
 		internal const string sourceSystemsRoute = $"api/{sourceSystemsEndpointSegment}";
 		internal const string sourceSystemsEndpoint = $"/api/{sourceSystemsEndpointSegment}";
+		internal const string memberRoute = $"{membersRoute}/{routeMemberId}";
 	}
 
 	internal enum LogStageParts
@@ -75,7 +77,8 @@ namespace PluralBridge.Api
 		reached,
 		data_access,
 		failed,
-		completed
+		completed,
+		endpoint
 	}
 
 	internal enum CountKeys

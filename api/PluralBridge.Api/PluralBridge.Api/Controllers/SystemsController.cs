@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using System.Diagnostics;
 
 namespace PluralBridge.Api.Controllers;
 
@@ -9,7 +10,9 @@ namespace PluralBridge.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route(Globals.systemsRouteRoot)]
-public sealed class SystemsController(IConfiguration configuration) : ControllerBase
+public sealed class SystemsController(
+	IConfiguration configuration,
+	ILogger<SystemsController> logger) : ControllerBase
 {
 	/// <summary>
 	/// Returns the current system resolved from the active access context.
@@ -21,50 +24,125 @@ public sealed class SystemsController(IConfiguration configuration) : Controller
 	[HttpGet]
 	public async Task<IActionResult> Get()
 	{
-		var connectionString = configuration.GetConnectionString(Globals.connectionString);
+		var requestTrace = RequestTraceContext.Create(
+			HttpContext.TraceIdentifier,
+			HttpContext.Request.Headers.TryGetValue(Globals.correlationID, out var correlationId)
+				? correlationId.ToString()
+				: null);
 
-		if (string.IsNullOrWhiteSpace(connectionString))
+		try
 		{
-			return Problem(
-				title: Globals.missingConnectionString,
-				detail: Globals.missingConnStringDetail,
-				statusCode: StatusCodes.Status500InternalServerError);
-		}
+			var connectionString = configuration.GetConnectionString(Globals.connectionString);
 
-		await using var connection = new SqlConnection(connectionString);
-		await connection.OpenAsync();
+			if (string.IsNullOrWhiteSpace(connectionString))
+			{
+				requestTrace.LogStage(
+					logger,
+					nameof(LogStageParts.error_path),
+					nameof(LogStageParts.reached));
 
-		var accessContext = await AccessContextHelper.ResolveCurrentAccessAsync(connection);
+				return Problem(
+					title: Globals.missingConnectionString,
+					detail: Globals.missingConnStringDetail,
+					statusCode: StatusCodes.Status500InternalServerError);
+			}
 
-		if (accessContext is null)
-		{
-			return Unauthorized(new
+			await using var connection = new SqlConnection(connectionString);
+			await connection.OpenAsync();
+
+			var accessContext = await AccessContextHelper.ResolveCurrentAccessAsync(
+				connection,
+				requestTrace,
+				logger);
+
+			if (accessContext is null)
+			{
+				requestTrace.LogStage(
+					logger,
+					nameof(LogStageParts.error_path),
+					nameof(LogStageParts.reached));
+
+				return Unauthorized(new
+				{
+					api = Globals.apiName,
+					phase = Globals.projectPhase,
+					endpoint = Globals.systemsEndpointRoot,
+					canWrite = false,
+					error = Globals.cantResolveAccess
+				});
+			}
+
+			if (!AccessContextHelper.IsAuthorizedForCurrentSystem(accessContext))
+			{
+				requestTrace.LogStage(
+					logger,
+					nameof(LogStageParts.error_path),
+					nameof(LogStageParts.reached));
+
+				return Forbid();
+			}
+
+			var dataAccessStopwatch = Stopwatch.StartNew();
+
+			requestTrace.LogStage(
+				logger,
+				nameof(LogStageParts.data_access),
+				nameof(LogStageParts.started));
+
+			List<SystemRecord> systems;
+			try
+			{
+				systems = await ReadSystemsAsync(connection, accessContext.CurrentSystem.SystemId);
+
+				dataAccessStopwatch.Stop();
+
+				requestTrace.LogStage(
+					logger,
+					nameof(LogStageParts.data_access),
+					nameof(LogStageParts.completed),
+					dataAccessStopwatch.Elapsed);
+			}
+			catch
+			{
+				dataAccessStopwatch.Stop();
+
+				requestTrace.LogStage(
+					logger,
+					nameof(LogStageParts.data_access),
+					nameof(LogStageParts.failed),
+					dataAccessStopwatch.Elapsed);
+
+				requestTrace.LogStage(
+					logger,
+					nameof(LogStageParts.error_path),
+					nameof(LogStageParts.reached));
+
+				throw;
+			}
+
+			return Ok(new
 			{
 				api = Globals.apiName,
 				phase = Globals.projectPhase,
 				endpoint = Globals.systemsEndpointRoot,
 				canWrite = false,
-				error = Globals.cantResolveAccess
+				systemId = accessContext.CurrentSystem.SystemId,
+				count = systems.Count,
+				systems
 			});
 		}
-
-		if (!AccessContextHelper.IsAuthorizedForCurrentSystem(accessContext))
+		catch
 		{
-			return Forbid();
+			requestTrace.LogStage(
+				logger,
+				nameof(LogStageParts.error_path),
+				nameof(LogStageParts.reached));
+
+			return Problem(
+				title: Globals.requestFailed,
+				detail: Globals.currConfiguredAccount,
+				statusCode: StatusCodes.Status500InternalServerError);
 		}
-
-		var systems = await ReadSystemsAsync(connection, accessContext.CurrentSystem.SystemId);
-
-		return Ok(new
-		{
-			api = Globals.apiName,
-			phase = Globals.projectPhase,
-			endpoint = Globals.systemsEndpointRoot,
-			canWrite = false,
-			systemId = accessContext.CurrentSystem.SystemId,
-			count = systems.Count,
-			systems
-		});
 	}
 
 	/// <summary>
