@@ -3,6 +3,7 @@
 [![GitGem](https://gitgem.org/api/badge/github/needsofmany/PluralBridge.svg)](https://gitgem.org/gem/github/needsofmany/PluralBridge)
 
 Project website: https://thepluralbridge.org/ 
+
 (GUI [gui.py] available in scripts\python\gui.py)
 
 ## Regular users: start here
